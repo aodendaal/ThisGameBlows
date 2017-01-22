@@ -18,10 +18,13 @@ public class ShipController : MonoBehaviour {
 
     public GameObject particleThingum;
 
+    private AudioSource bellsource;
+
 	protected virtual void Awake ()
     {
         myBodeh = GetComponent<Rigidbody>();
         particleThingum.SetActive(false);
+        bellsource = GetComponent<AudioSource>();
 	}
 
     public void MoveToPoint(Transform destination)
@@ -30,6 +33,8 @@ public class ShipController : MonoBehaviour {
         LockedForWind = true;
         this.destination = destination;
         docking = true;
+
+        bellsource.Play();
     }
 
     void OnDestroy()

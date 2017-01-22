@@ -18,6 +18,8 @@ public class HUDController : MonoBehaviour
 
     private float killTime;
 
+    private float restartTime = 0;
+
     void Awake()
     {
         Instance = this;
@@ -48,6 +50,14 @@ public class HUDController : MonoBehaviour
             HidePrompts();
             killTime = 0;
         }
+
+        if(restartTime > 0)
+        {
+            if(restartTime <= Time.time)
+            {
+                Application.LoadLevel("menu");
+            }
+        }
     }
 	
 	public void SetGold(int gold)
@@ -67,6 +77,8 @@ public class HUDController : MonoBehaviour
         messageBackground.SetActive(true);
         deliveryPrompt.SetActive(true);
         killTime = Time.time + 2f;
+
+        deliveryPrompt.GetComponent<AudioSource>().Play();
     }
 
     public void ShowShoutyInstructionPrompt()
@@ -82,6 +94,8 @@ public class HUDController : MonoBehaviour
 
         messageBackground.SetActive(true);
         deathPrompt.SetActive(true);
-        killTime = Time.time + 2f;
+        killTime = Time.time + 3f;
+
+        restartTime = Time.time + 3f;
     }
 }

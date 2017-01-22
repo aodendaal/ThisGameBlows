@@ -18,6 +18,7 @@ public class CloudInputAndMovement : MonoBehaviour
     float epsilonSquared;
 
     public ParticleSystem blowParticles;
+    AudioSource windSource;
 
     void Awake()
     {
@@ -25,6 +26,7 @@ public class CloudInputAndMovement : MonoBehaviour
         epsilonSquared = Mathf.Epsilon * Mathf.Epsilon;
 
         windApplicator = aimQuad.GetComponent<WindForceApplicator>();
+        windSource = blowParticles.transform.GetComponent<AudioSource>();
     }
 
 	void Update ()
@@ -58,12 +60,14 @@ public class CloudInputAndMovement : MonoBehaviour
                 if (!blowParticles.isPlaying)
                 {
                     blowParticles.Play();
+                    windSource.Play();
                 }
                 windApplicator.ApplyWind(transform.position, absolutePower * maxForce);
             }
             else
             {
                blowParticles.Stop();
+                windSource.Stop();
             }
         }
         else
