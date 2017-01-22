@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: b93e6f95ab5718c4aa2ce68ee4a56c92
+timeCreated: 1485061694
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: MondoBeyondo BB
+  fontNames:
+  - MondoBeyondo BB
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
