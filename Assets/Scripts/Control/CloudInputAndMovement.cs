@@ -17,6 +17,8 @@ public class CloudInputAndMovement : MonoBehaviour
 
     float epsilonSquared;
 
+    public ParticleSystem blowParticles;
+
     void Awake()
     {
         inputVector = new Vector3();
@@ -30,7 +32,7 @@ public class CloudInputAndMovement : MonoBehaviour
         inputVector.x = Input.GetAxis("Horizontal");
         inputVector.z = Input.GetAxis("Vertical");
 
-        inputVector.Normalize();
+         inputVector.Normalize();
 
         transform.position += inputVector * movementSpeed * Time.deltaTime;
 
@@ -53,7 +55,15 @@ public class CloudInputAndMovement : MonoBehaviour
 
             if (absolutePower > Mathf.Epsilon)
             {
+                if (!blowParticles.isPlaying)
+                {
+                    blowParticles.Play();
+                }
                 windApplicator.ApplyWind(transform.position, absolutePower * maxForce);
+            }
+            else
+            {
+               blowParticles.Stop();
             }
         }
         else

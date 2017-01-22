@@ -15,7 +15,7 @@ public class WindForceApplicator : MonoBehaviour
 
     public void ApplyWind(Vector3 basePoint, float power)
     {
-        for (int i = 0; i < shipList.Count; i++)
+           for (int i = 0; i < shipList.Count; i++)
         {
             if(shipList[i].GetComponent<ShipController>().LockedForWind)
             {
