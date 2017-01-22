@@ -8,6 +8,7 @@ public class HUDController : MonoBehaviour
     public static HUDController Instance;
 
     public Text goldPrompt;
+    public GameObject messageBackground;
     public GameObject collectPrompt;
     public GameObject deliveryPrompt;
     public GameObject instructionPrompt;
@@ -30,6 +31,7 @@ public class HUDController : MonoBehaviour
 
     void HidePrompts()
     {
+        messageBackground.SetActive(false);
         deliveryPrompt.SetActive(false);
         collectPrompt.SetActive(false);
         instructionPrompt.SetActive(false);
@@ -55,18 +57,21 @@ public class HUDController : MonoBehaviour
 
     public void ShowCollect()
     {
+        messageBackground.SetActive(true);
         collectPrompt.SetActive(true);
         killTime = Time.time + 2f;
     }
 
     public void ShowDeliver()
     {
+        messageBackground.SetActive(true);
         deliveryPrompt.SetActive(true);
         killTime = Time.time + 2f;
     }
 
     public void ShowShoutyInstructionPrompt()
     {
+        messageBackground.SetActive(true);
         instructionPrompt.SetActive(true);
         killTime = Time.time + 2f;
     }
@@ -75,6 +80,7 @@ public class HUDController : MonoBehaviour
     {
         deathPrompt.GetComponent<Text>().text = "SHIP DESTROYED. IT HAD DONATED " + mManager.CashMoneys.ToString() + " GOLD IN TRIBUTE.";
 
+        messageBackground.SetActive(true);
         deathPrompt.SetActive(true);
         killTime = Time.time + 2f;
     }
