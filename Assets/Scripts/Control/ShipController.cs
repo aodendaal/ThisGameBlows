@@ -20,11 +20,14 @@ public class ShipController : MonoBehaviour {
 
     private AudioSource bellsource;
 
+    private AudioSource kaboomSource;
+
 	protected virtual void Awake ()
     {
         myBodeh = GetComponent<Rigidbody>();
         particleThingum.SetActive(false);
         bellsource = GetComponent<AudioSource>();
+        kaboomSource = particleThingum.GetComponent<AudioSource>();
 	}
 
     public void MoveToPoint(Transform destination)
@@ -80,6 +83,7 @@ public class ShipController : MonoBehaviour {
         {
             KillConstraints();
             Destroy(gameObject, 5f);
+            kaboomSource.PlayDelayed(3f);
         }
     }
 
@@ -90,6 +94,7 @@ public class ShipController : MonoBehaviour {
             particleThingum.SetActive(true);
             LockedForWind = true;
             KillConstraints();
+            kaboomSource.Play();
             Destroy(gameObject,5f);
         }
     }
