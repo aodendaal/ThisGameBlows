@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,8 +18,6 @@ public class ShipController : MonoBehaviour {
 
     public GameObject particleThingum;
 
-    public AudioClip dockingSound;
-
 	protected virtual void Awake ()
     {
         myBodeh = GetComponent<Rigidbody>();
@@ -33,18 +30,14 @@ public class ShipController : MonoBehaviour {
         LockedForWind = true;
         this.destination = destination;
         docking = true;
-        PlayDockSound();
     }
 
-    private void PlayDockSound()
+    void OnDestroy()
     {
-        var audioSource = GetComponent<AudioSource>();
-        audioSource.clip = dockingSound;
-
-        audioSource.Play();
+        HUDController.Instance.ShowDeathPrompt();
     }
-
-    protected virtual void Update ()
+	
+	protected virtual void Update ()
     {
         if (docking)
         {
@@ -52,11 +45,14 @@ public class ShipController : MonoBehaviour {
             myBodeh.MoveRotation(Quaternion.Slerp(myBodeh.rotation, destination.rotation, Time.deltaTime * 2f));
             childToRotate.rotation = Quaternion.Slerp(childToRotate.rotation, Quaternion.LookRotation(destination.right), Time.deltaTime * 10f);
 
-            if ((myBodeh.position - destination.position).magnitude <= Mathf.Epsilon)
+            if ((myBodeh.position - destination.position).magnitude <= 1f)
             {
-                if (Quaternion.Dot(myBodeh.rotation, destination.rotation) >= 0.95f)
+                //if (Quaternion.Dot(myBodeh.rotation, destination.rotation) >= 0.95f)
                 {
                     docking = false;
+                    LockedForWind = false;
+                    destination = null;
+                    myBodeh.isKinematic = false;
                 }
             }
         }
@@ -78,20 +74,16 @@ public class ShipController : MonoBehaviour {
         if(collider.gameObject.layer == LayerMask.NameToLayer("LevelBounds"))
         {
             KillConstraints();
-            Destroy(gameObject, 10f);
+            Destroy(gameObject, 5f);
         }
     }
 
     void OnCollisionEnter(Collision ow)
-    {
-        if(LockedForWind)
-        {
-            return;
-        }
-
+    {       
         if (ow.gameObject.layer == LayerMask.NameToLayer("Ship"))
         {
             particleThingum.SetActive(true);
+            LockedForWind = true;
             KillConstraints();
             Destroy(gameObject,5f);
         }
@@ -100,7 +92,6 @@ public class ShipController : MonoBehaviour {
     private void KillConstraints()
     {
         myBodeh.useGravity = true;
-        myBodeh.constraints = worldFallConstraints;
-        LockedForWind = true;
+        myBodeh.constraints = worldFallConstraints;     
     }
 }
