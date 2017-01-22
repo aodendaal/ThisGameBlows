@@ -30,8 +30,16 @@ public class WindForceApplicator : MonoBehaviour
 
             float windDirection = Mathf.Atan2(windVector.z, windVector.x) * Mathf.Rad2Deg;
 
-            if (Mathf.Abs(windDirection - direction) <= maxHalfAngle)
+            float absAngle = Mathf.Abs(windDirection - direction);
+
+            if(absAngle > 300f)
             {
+                absAngle = Mathf.Abs(absAngle - 360f);
+            }
+
+            if ( absAngle <= maxHalfAngle)
+            {
+                
                 Quaternion forceDirection = Quaternion.Euler(0, -direction, 0);
                 shipList[i].AddForce(forceDirection * Vector3.right * power, ForceMode.Acceleration);
             }
